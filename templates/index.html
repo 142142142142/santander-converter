@@ -1,96 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Extratos Santander (PDF para CSV)</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Converter PDF para Excel ou CSV | Extratos Bancários e Mais</title>
+    <meta name="description" content="Converta PDFs em Excel ou CSV de forma rápida, simples e segura. Ideal para extratos bancários, faturas e relatórios. Suporta vários bancos em Portugal." />
+    <link rel="canonical" href="https://www.seusite.com/" />
+
+    <!-- Open Graph for better social share previews -->
+    <meta property="og:title" content="Converter PDF para Excel ou CSV | Extratos Bancários e Mais" />
+    <meta property="og:description" content="Converta PDFs em Excel ou CSV. Especialmente útil para extratos bancários PDF, permitindo análise de dados financeira rápida e simples." />
+    <meta property="og:url" content="https://www.seusite.com/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Converter PDF para Excel ou CSV | Extratos Bancários e Mais" />
+    <meta name="twitter:description" content="Converta PDFs bancários em CSV ou Excel facilmente. Otimize a gestão financeira e análise de dados." />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <!-- FAQ Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como converter um extrato bancário PDF para Excel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Basta carregar o ficheiro PDF no conversor, selecionar 'Excel' como formato de saída, e em segundos terá o seu extrato bancário pronto para análise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "É seguro converter extratos bancários aqui?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. Os seus ficheiros são processados localmente e removidos imediatamente após a conversão, garantindo privacidade e segurança."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso converter mais de dois PDFs simultaneamente?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, até 2 ficheiros gratuitamente. Caso pretenda converter mais de 2 ficheiros, é necessário efetuar um pagamento de 5€."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-white text-gray-800 font-sans">
     <!-- Navigation -->
-    <nav class="bg-white border-b border-gray-200 py-4">
-        <div class="container mx-auto px-4 flex items-center justify-between">
-            <div class="text-xl font-bold text-red-600">
-                <a href="/">Conversor Santander</a>
-            </div>
-            <div class="text-sm text-gray-600">
-                <!-- Add links if needed -->
-            </div>
+    <nav class="flex items-center justify-between py-4 px-8 border-b border-gray-200">
+        <div class="flex items-center space-x-2">
+            <!-- Logo Placeholder -->
+            <img src="https://via.placeholder.com/40" alt="Logótipo do Conversor PDF para Excel/CSV" class="w-8 h-8" />
+            <span class="font-bold text-xl">Conversor PDF para Excel/CSV</span>
+        </div>
+        <div class="space-x-6 text-sm font-medium text-gray-700">
+            <a href="#" class="hover:text-gray-900">Login</a>
+            <a href="#como-funciona" class="hover:text-gray-900">Como Funciona</a>
+            <a href="#faq" class="hover:text-gray-900">FAQ</a>
+            <a href="#contacto" class="hover:text-gray-900">Contacto</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="flex-grow">
-        <div class="container mx-auto px-4 py-16 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                Converta Extratos Bancários em CSV Fácil e Rapidamente
-            </h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                Transforme os seus PDFs do Santander num ficheiro CSV unificado, pronto a importar em ferramentas de contabilidade, finanças pessoais, ou análise de dados.
-            </p>
-            <a href="#upload-section" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg inline-block">
-                Começar Agora
-            </a>
+    <header class="container mx-auto px-8 py-16 flex flex-col-reverse md:flex-row items-center">
+        <!-- Left side illustration -->
+        <div class="w-full md:w-1/2 flex justify-center md:justify-start mb-8 md:mb-0">
+            <div class="relative inline-block">
+                <img src="https://via.placeholder.com/100x120?text=PDF" alt="Ícone PDF" class="inline-block w-24 h-auto"/>
+                <img src="https://via.placeholder.com/100x120?text=CSV" alt="Ícone CSV" class="inline-block w-24 h-auto ml-4"/>
+                <span class="absolute top-1/2 left-full transform -translate-y-1/2 text-3xl font-bold text-purple-500 ml-2">⟶</span>
+            </div>
         </div>
-    </section>
 
-    <!-- Upload & Conversion Section -->
-    <section id="upload-section" class="pb-20">
-        <div class="container mx-auto px-4">
-            <div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-8">
-                {% if error %}
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-                    <span class="block sm:inline">{{ error }}</span>
-                </div>
-                {% endif %}
-
-                <h2 class="text-2xl font-bold text-center text-red-600 mb-6">
-                    Carregar Extratos em PDF
-                </h2>
-                <p class="text-sm text-gray-600 text-center mb-6">
-                    Selecione até 2 ficheiros gratuitamente. Mais de 2 ficheiros custa 5€.
-                </p>
-
-                <form id="upload-form" action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="space-y-6">
-                    <div class="flex items-center justify-center w-full">
-                        <label class="w-full flex flex-col items-center px-4 py-6 bg-white text-blue-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue-500 cursor-pointer hover:bg-blue-50">
-                            <svg class="w-8 h-8 text-red-600 mb-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                            </svg>
-                            <span class="text-base leading-normal text-gray-700">Selecionar ficheiros PDF</span>
-                            <input id="file-input" type='file' class="hidden" name="files[]" accept=".pdf" multiple required />
-                        </label>
-                    </div>
-                    
+        <!-- Right side text and CTA -->
+        <div class="w-full md:w-1/2 md:pl-12">
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                Converter PDF para Excel ou CSV: Extratos Bancários em Segundos
+            </h1>
+            <p class="text-lg text-gray-600 mb-8">
+                Converta facilmente o seu extrato bancário em PDF para CSV ou Excel. Ganhe tempo na gestão financeira, análise de dados e integração em software de contabilidade.
+            </p>
+            
+            <!-- Upload Form -->
+            <form id="upload-form" action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="space-y-4">
+                <div class="inline-block relative">
+                    <label class="inline-flex items-center bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg cursor-pointer hover:bg-purple-700 transition duration-200">
+                        <span>Selecionar PDF</span>
+                        <input id="file-input" type="file" name="files[]" accept=".pdf" multiple class="hidden" required />
+                    </label>
                     <div id="fileList" class="text-sm text-gray-600 mt-2"></div>
-                    
-                    <!-- Free conversion button (initially visible) -->
-                    <button id="convert-btn" type="submit" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition duration-200 font-semibold">
-                        Converter para CSV
-                    </button>
-
-                    <!-- Paywall section (hidden by default, shown if more than 2 files) -->
-                    <div id="paywall" class="hidden text-center mt-4">
-                        <p class="text-sm text-gray-600 mb-4">
-                            Está a tentar converter mais de 2 ficheiros.<br>
-                            Por favor efetue o pagamento de 5€ para continuar.
-                        </p>
-                        <button id="pay-btn" type="button" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-200 font-semibold">
-                            Pagar 5€
-                        </button>
-                    </div>
-                </form>
-                
-                <div class="mt-6 text-xs text-gray-500 text-center">
-                    <p>A sua privacidade é importante para nós. Os ficheiros são processados localmente e eliminados após a conversão.</p>
                 </div>
+
+                <!-- Paywall for >2 files -->
+                <div id="paywall" class="hidden text-center mt-4">
+                    <p class="text-sm text-gray-600 mb-4">
+                        Está a tentar converter mais de 2 ficheiros. Por favor, efetue o pagamento de 5€ para continuar.
+                    </p>
+                    <button id="pay-btn" type="button" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
+                        Pagar 5€
+                    </button>
+                </div>
+
+                <!-- Convert button (for <= 2 files) -->
+                <button id="convert-btn" type="submit" class="hidden w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition duration-200 font-semibold mt-4">
+                    Converter para CSV ou Excel
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- How It Works Section -->
+    <section id="como-funciona" class="container mx-auto px-8 py-12">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800">Como Converter PDF para Excel ou CSV</h2>
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+                <h3 class="font-semibold mb-2 text-lg">1. Carregue o seu PDF</h3>
+                <p class="text-gray-600 text-sm">Selecione o ficheiro PDF do extrato bancário ou outro documento.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2 text-lg">2. Extração Automática</h3>
+                <p class="text-gray-600 text-sm">A nossa ferramenta reconhece as tabelas e transações, formatando os dados corretamente.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2 text-lg">3. Exporte em CSV ou Excel</h3>
+                <p class="text-gray-600 text-sm">Obtenha um ficheiro pronto a analisar, importar em software de contabilidade ou partilhar.</p>
             </div>
         </div>
     </section>
 
-    <footer class="bg-white border-t border-gray-200 py-6">
-        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
-            © {{ current_year }} Conversor Santander. Todos os direitos reservados.
+    <!-- FAQ Section -->
+    <section id="faq" class="container mx-auto px-8 py-12">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800">Perguntas Frequentes (FAQ)</h2>
+        <div class="space-y-8">
+            <div>
+                <h3 class="font-semibold mb-2 text-lg">Como converter um extrato bancário PDF para Excel?</h3>
+                <p class="text-gray-600 text-sm">Carregue o PDF, selecione a opção Excel e clique em "Converter". Em segundos terá o ficheiro pronto.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2 text-lg">É seguro converter extratos bancários aqui?</h3>
+                <p class="text-gray-600 text-sm">Sim. Os seus ficheiros não são guardados no servidor e são apagados imediatamente após a conversão.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold mb-2 text-lg">Posso converter vários PDFs de uma só vez?</h3>
+                <p class="text-gray-600 text-sm">Até 2 ficheiros é gratuito. Para mais de 2, é necessário um pagamento de 5€.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="container mx-auto px-8 py-12">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800">Precisa de Ajuda?</h2>
+        <p class="text-gray-600 mb-4">Tem dúvidas sobre a conversão de PDF para Excel ou CSV? Entre em contacto connosco:</p>
+        <a href="mailto:suporte@seusite.com" class="text-purple-600 font-semibold hover:underline">suporte@seusite.com</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-6 mt-12">
+        <div class="container mx-auto px-8 text-center text-gray-500 text-sm">
+            © {{ current_year }} Converter PDF para Excel/CSV. Todos os direitos reservados.
         </div>
     </footer>
 
@@ -100,8 +175,8 @@
         const convertBtn = document.getElementById('convert-btn');
         const paywall = document.getElementById('paywall');
         const payBtn = document.getElementById('pay-btn');
-        
-        fileInput.addEventListener('change', function(e) {
+
+        fileInput.addEventListener('change', function() {
             fileList.innerHTML = '';
             const files = this.files;
 
@@ -110,7 +185,7 @@
                 this.value = '';
                 return;
             }
-            
+
             Array.from(files).forEach(file => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'py-1';
@@ -118,7 +193,7 @@
                 fileList.appendChild(fileItem);
             });
 
-            // If more than 2 files, show paywall
+            // Show paywall if more than 2 files
             if (files.length > 2) {
                 convertBtn.classList.add('hidden');
                 paywall.classList.remove('hidden');
@@ -129,8 +204,8 @@
         });
 
         payBtn.addEventListener('click', function() {
-            // Add Stripe checkout logic here
-            alert("Função de pagamento não integrada. Aqui redirecionaria o utilizador para o Stripe Checkout.");
+            // Implement Stripe or another payment logic here
+            alert("Pagamento não integrado. Aqui redirecionaria o utilizador para o processo de checkout.");
         });
     </script>
 </body>
