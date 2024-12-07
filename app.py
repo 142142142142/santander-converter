@@ -28,10 +28,10 @@ def print_debug(message):
 
 def extract_santander_transactions(pdf_path):
     """
-    Extract transaction data specifically from Santander bank statements.
+    Extrai dados de transações de extratos do Banco Santander.
     """
     transactions = []
-    print_debug(f"Processing file: {pdf_path}")
+    print_debug(f"Processando ficheiro: {pdf_path}")
     
     with pdfplumber.open(pdf_path) as pdf:
         transaction_section = False
@@ -68,7 +68,7 @@ def extract_santander_transactions(pdf_path):
                             
                             description = ' '.join(parts[2:-2])
                             
-                            # Convert date to standard format
+                            # Converter data para formato padrão
                             date = datetime.strptime(date_str + "/2024", '%d/%m/%Y')
                             
                             if amount is not None:
@@ -80,11 +80,11 @@ def extract_santander_transactions(pdf_path):
                                 })
                     
                     except Exception as e:
-                        print_debug(f"Error processing line: {line}")
-                        print_debug(f"Error details: {str(e)}")
+                        print_debug(f"Erro ao processar linha: {line}")
+                        print_debug(f"Detalhes do erro: {str(e)}")
                         continue
     
-    print_debug(f"Found {len(transactions)} transactions")
+    print_debug(f"Foram encontradas {len(transactions)} transações")
     return transactions
 
 @app.route('/', methods=['GET'])
@@ -94,16 +94,16 @@ def index():
 @app.route('/convert', methods=['POST'])
 def convert():
     if 'files[]' not in request.files:
-        return render_template('index.html', error='No files uploaded')
+        return render_template('index.html', error='Nenhum ficheiro carregado')
     
     files = request.files.getlist('files[]')
-    print_debug(f"Received {len(files)} files")
+    print_debug(f"Recebidos {len(files)} ficheiros")
     
     if len(files) > MAX_FILES:
-        return render_template('index.html', error=f'Maximum {MAX_FILES} files allowed')
+        return render_template('index.html', error=f'Máximo de {MAX_FILES} ficheiros permitidos')
     
     if not files or files[0].filename == '':
-        return render_template('index.html', error='No files selected')
+        return render_template('index.html', error='Nenhum ficheiro selecionado')
     
     all_transactions = []
     processed_files = 0
@@ -120,44 +120,45 @@ def convert():
                     all_transactions.extend(transactions)
                     processed_files += 1
                 finally:
-                    # Clean up the uploaded file
+                    # Remover o ficheiro carregado
                     if os.path.exists(filepath):
                         os.remove(filepath)
         
         if not all_transactions:
-            return render_template('index.html', error='No transactions found in the uploaded files')
+            return render_template('index.html', error='Não foram encontradas transações nos ficheiros carregados')
         
-        # Sort all transactions by date
+        # Ordenar as transações por data
         all_transactions.sort(key=lambda x: x['date'])
         
-        # Convert datetime objects to string format for CSV
+        # Converter objetos datetime para string no CSV
         for transaction in all_transactions:
             transaction['date'] = transaction['date'].strftime('%Y-%m-%d')
         
-        # Create CSV in memory
+        # Criar CSV em memória
         output = io.StringIO()
         writer = csv.DictWriter(output, fieldnames=['date', 'description', 'amount', 'balance'])
         writer.writeheader()
         writer.writerows(all_transactions)
         
-        # Prepare the CSV for download
+        # Preparar o CSV para download
         mem = io.BytesIO()
         mem.write(output.getvalue().encode('utf-8'))
         mem.seek(0)
         output.close()
         
-        print_debug(f"Successfully processed {processed_files} files with {len(all_transactions)} total transactions")
+        print_debug(f"Processados {processed_files} ficheiros com um total de {len(all_transactions)} transações")
         
         return send_file(
             mem,
             mimetype='text/csv',
             as_attachment=True,
-            download_name='santander_transactions.csv'
+            download_name='transacoes_santander.csv'
         )
             
     except Exception as e:
-        print_debug(f"Error during processing: {str(e)}")
-        return render_template('index.html', error=f'Error processing files: {str(e)}')
+        print_debug(f"Erro durante o processamento: {str(e)}")
+        return render_template('index.html', error=f'Erro ao processar os ficheiros: {str(e)}')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
