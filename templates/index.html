@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversor de Extratos Santander (PDF para CSV)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
 </head>
@@ -14,7 +14,7 @@
                 <a href="/">Conversor Santander</a>
             </div>
             <div class="text-sm text-gray-600">
-                <!-- Future links like "Pricing", "Contact", "Login" can go here -->
+                <!-- Add links if needed -->
             </div>
         </div>
     </nav>
@@ -48,25 +48,37 @@
                     Carregar Extratos em PDF
                 </h2>
                 <p class="text-sm text-gray-600 text-center mb-6">
-                    Selecione até 12 ficheiros PDF de extratos Santander para converter num único CSV.
+                    Selecione até 2 ficheiros gratuitamente. Mais de 2 ficheiros custa 5€.
                 </p>
 
-                <form action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="space-y-6">
+                <form id="upload-form" action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="space-y-6">
                     <div class="flex items-center justify-center w-full">
                         <label class="w-full flex flex-col items-center px-4 py-6 bg-white text-blue-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue-500 cursor-pointer hover:bg-blue-50">
                             <svg class="w-8 h-8 text-red-600 mb-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                             </svg>
                             <span class="text-base leading-normal text-gray-700">Selecionar ficheiros PDF</span>
-                            <input type='file' class="hidden" name="files[]" accept=".pdf" multiple required />
+                            <input id="file-input" type='file' class="hidden" name="files[]" accept=".pdf" multiple required />
                         </label>
                     </div>
                     
                     <div id="fileList" class="text-sm text-gray-600 mt-2"></div>
                     
-                    <button type="submit" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition duration-200 font-semibold">
+                    <!-- Free conversion button (initially visible) -->
+                    <button id="convert-btn" type="submit" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition duration-200 font-semibold">
                         Converter para CSV
                     </button>
+
+                    <!-- Paywall section (hidden by default, shown if more than 2 files) -->
+                    <div id="paywall" class="hidden text-center mt-4">
+                        <p class="text-sm text-gray-600 mb-4">
+                            Está a tentar converter mais de 2 ficheiros.<br>
+                            Por favor efetue o pagamento de 5€ para continuar.
+                        </p>
+                        <button id="pay-btn" type="button" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-200 font-semibold">
+                            Pagar 5€
+                        </button>
+                    </div>
                 </form>
                 
                 <div class="mt-6 text-xs text-gray-500 text-center">
@@ -76,33 +88,49 @@
         </div>
     </section>
 
-    <!-- Footer (Optional) -->
     <footer class="bg-white border-t border-gray-200 py-6">
         <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
-            © {{ "now"|date("Y") }} Conversor Santander. Todos os direitos reservados.
+            © {{ current_year }} Conversor Santander. Todos os direitos reservados.
         </div>
     </footer>
 
     <script>
-        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
-            const fileList = document.getElementById('fileList');
+        const fileInput = document.getElementById('file-input');
+        const fileList = document.getElementById('fileList');
+        const convertBtn = document.getElementById('convert-btn');
+        const paywall = document.getElementById('paywall');
+        const payBtn = document.getElementById('pay-btn');
+        
+        fileInput.addEventListener('change', function(e) {
             fileList.innerHTML = '';
-            
-            if (this.files.length > 12) {
+            const files = this.files;
+
+            if (files.length > 12) {
                 alert('Por favor, selecione no máximo 12 ficheiros');
                 this.value = '';
                 return;
             }
             
-            Array.from(this.files).forEach(file => {
+            Array.from(files).forEach(file => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'py-1';
                 fileItem.textContent = `📄 ${file.name}`;
                 fileList.appendChild(fileItem);
             });
-            
-            const label = this.previousElementSibling;
-            label.textContent = `${this.files.length} ficheiro(s) selecionado(s)`;
+
+            // If more than 2 files, show paywall
+            if (files.length > 2) {
+                convertBtn.classList.add('hidden');
+                paywall.classList.remove('hidden');
+            } else {
+                convertBtn.classList.remove('hidden');
+                paywall.classList.add('hidden');
+            }
+        });
+
+        payBtn.addEventListener('click', function() {
+            // Add Stripe checkout logic here
+            alert("Função de pagamento não integrada. Aqui redirecionaria o utilizador para o Stripe Checkout.");
         });
     </script>
 </body>

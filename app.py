@@ -89,21 +89,22 @@ def extract_santander_transactions(pdf_path):
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    current_year = datetime.now().year
+    return render_template('index.html', current_year=current_year)
 
 @app.route('/convert', methods=['POST'])
 def convert():
     if 'files[]' not in request.files:
-        return render_template('index.html', error='Nenhum ficheiro carregado')
+        return render_template('index.html', error='Nenhum ficheiro carregado', current_year=datetime.now().year)
     
     files = request.files.getlist('files[]')
     print_debug(f"Recebidos {len(files)} ficheiros")
     
     if len(files) > MAX_FILES:
-        return render_template('index.html', error=f'Máximo de {MAX_FILES} ficheiros permitidos')
+        return render_template('index.html', error=f'Máximo de {MAX_FILES} ficheiros permitidos', current_year=datetime.now().year)
     
     if not files or files[0].filename == '':
-        return render_template('index.html', error='Nenhum ficheiro selecionado')
+        return render_template('index.html', error='Nenhum ficheiro selecionado', current_year=datetime.now().year)
     
     all_transactions = []
     processed_files = 0
@@ -125,7 +126,7 @@ def convert():
                         os.remove(filepath)
         
         if not all_transactions:
-            return render_template('index.html', error='Não foram encontradas transações nos ficheiros carregados')
+            return render_template('index.html', error='Não foram encontradas transações nos ficheiros carregados', current_year=datetime.now().year)
         
         # Ordenar as transações por data
         all_transactions.sort(key=lambda x: x['date'])
@@ -157,7 +158,7 @@ def convert():
             
     except Exception as e:
         print_debug(f"Erro durante o processamento: {str(e)}")
-        return render_template('index.html', error=f'Erro ao processar os ficheiros: {str(e)}')
+        return render_template('index.html', error=f'Erro ao processar os ficheiros: {str(e)}', current_year=datetime.now().year)
 
 if __name__ == '__main__':
     app.run(debug=True)
