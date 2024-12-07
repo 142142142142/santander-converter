@@ -21,7 +21,6 @@
       body {
         font-family: 'Poppins', sans-serif;
       }
-      /* Custom simple hover transitions */
       .transition-all {
         transition: all 0.3s ease;
       }
@@ -62,6 +61,8 @@
                     </label>
                     <div id="fileList" class="text-sm text-gray-600"></div>
 
+                    <!-- Commenting out paywall section -->
+                    <!--
                     <div id="paywall" class="hidden text-center mt-4">
                         <p class="text-sm text-gray-600 mb-4">
                             Mais de 2 ficheiros selecionados. Por favor, efetue o pagamento de 5€ para continuar.
@@ -70,8 +71,9 @@
                             Pagar 5€
                         </button>
                     </div>
+                    -->
 
-                    <button id="convert-btn" type="submit" class="hidden w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 font-medium mt-4 transition-all">
+                    <button id="convert-btn" type="submit" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 font-medium mt-4 transition-all">
                         Converter para CSV/Excel
                     </button>
                 </form>
@@ -85,7 +87,6 @@
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="flex flex-col items-start">
                         <div class="mb-4">
-                            <!-- Minimal icon (optional). Remove if not needed -->
                             <div class="w-10 h-10 bg-indigo-100 text-indigo-600 flex items-center justify-center rounded-full font-semibold">1</div>
                         </div>
                         <h3 class="text-lg font-medium text-gray-800 mb-2">Carregue o PDF</h3>
@@ -132,9 +133,9 @@
                     </p>
                 </div>
                 <div>
-                    <h3 class="font-medium text-lg text-gray-800">Posso converter mais de 2 ficheiros?</h3>
+                    <h3 class="font-medium text-lg text-gray-800">Posso converter mais ficheiros?</h3>
                     <p class="text-sm text-gray-600 mt-2">
-                        Pode converter 2 ficheiros gratuitamente. Para mais, necessita de efetuar um pagamento de 5€.
+                        Agora pode carregar até 20 ficheiros sem pagamento. Aproveite!
                     </p>
                 </div>
             </div>
@@ -163,15 +164,16 @@
         const fileInput = document.getElementById('file-input');
         const fileList = document.getElementById('fileList');
         const convertBtn = document.getElementById('convert-btn');
-        const paywall = document.getElementById('paywall');
-        const payBtn = document.getElementById('pay-btn');
+        // const paywall = document.getElementById('paywall');
+        // const payBtn = document.getElementById('pay-btn');
 
         fileInput.addEventListener('change', function() {
             fileList.innerHTML = '';
             const files = this.files;
 
-            if (files.length > 12) {
-                alert('Por favor, selecione no máximo 12 ficheiros');
+            // Updated limit to 20 files
+            if (files.length > 20) {
+                alert('Por favor, selecione no máximo 20 ficheiros');
                 this.value = '';
                 return;
             }
@@ -183,20 +185,15 @@
                 fileList.appendChild(fileItem);
             });
 
-            // Show paywall if more than 2 files
-            if (files.length > 2) {
-                convertBtn.classList.add('hidden');
-                paywall.classList.remove('hidden');
-            } else {
-                convertBtn.classList.remove('hidden');
-                paywall.classList.add('hidden');
-            }
+            // With paywall commented out, always show convert button
+            convertBtn.classList.remove('hidden');
         });
 
-        payBtn.addEventListener('click', function() {
-            // Add your payment integration here
-            alert("Pagamento não integrado. Aqui redirecionaria o utilizador para o checkout.");
-        });
+        // payBtn would have been for payment, now not needed
+        // payBtn.addEventListener('click', function() {
+        //     alert("Pagamento não integrado.");
+        // });
     </script>
 </body>
 </html>
+
